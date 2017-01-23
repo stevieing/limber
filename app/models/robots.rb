@@ -176,7 +176,7 @@ module Robots
 
       verified = valid_plates.merge(valid_parents) { |_k, v1, v2| v1 && v2 }
 
-      if verify_robot?
+      if verify_robot? && beds.values.first.plate.present?
         if beds.values.first.plate.custom_metadatum_collection.uuid.nil?
           error_messages << "Your plate is not on the right robot"
           verified.merge!("robot" => false)
@@ -185,8 +185,6 @@ module Robots
           verified.merge!("robot" => false)
         end
       end
-
-
 
       { beds: verified, valid: verified.all? { |_, v| v }, message: formatted_message }
     end
